@@ -1,0 +1,2 @@
+# schoolManagementFE
+schoolManagement front end
