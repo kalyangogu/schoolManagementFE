@@ -149,7 +149,6 @@ export default function AdminDashboard() {
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.contentContainer}
-        showsVerticalScrollIndicator={false}
       >
         {/* Welcome Section */}
         <View style={styles.welcomeSection}>
@@ -413,7 +412,7 @@ const styles = StyleSheet.create({
   },
 
   moduleGrid: {
-    gap: 10,
+    marginBottom: 10,
   },
 
   moduleCard: {
@@ -422,6 +421,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 10,
 
     shadowColor: "#000",
     shadowOffset: {

@@ -1,9 +1,10 @@
-import { API_BASE_URL, ENDPOINTS } from "../config";
+import { API_BASE_URL, ENDPOINTS, TOKEN_TTL } from "../config";
 import {
   getAccessToken,
   getRefreshToken,
   saveTokens,
-  clearAuth,
+  isAccessTokenExpired,
+  isRefreshTokenExpired,
 } from "./tokenStorage";
 
 class ApiError extends Error {
@@ -29,6 +30,11 @@ const tryRefreshToken = async () => {
   const refreshToken = await getRefreshToken();
   if (!refreshToken) throw new ApiError("Session expired. Please login again.", 401);
 
+  const refreshExpired = await isRefreshTokenExpired();
+  if (refreshExpired) {
+    throw new ApiError("Refresh token expired. Please login again.", 401);
+  }
+
   const response = await fetch(`${API_BASE_URL}${ENDPOINTS.AUTH_REFRESH_TOKEN}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -40,9 +46,20 @@ const tryRefreshToken = async () => {
   }
 
   const data = await response.json();
+  const accessExpiresAt =
+    data.accessExpiresAt ||
+    data.expiresAt ||
+    (Date.now() + TOKEN_TTL.ACCESS_TOKEN_MS);
+  const refreshExpiresAt =
+    data.refreshExpiresAt ||
+    data.refreshExpiresIn ||
+    (Date.now() + TOKEN_TTL.REFRESH_TOKEN_MS);
+
   await saveTokens({
     accessToken: data.accessToken,
     refreshToken: data.refreshToken || refreshToken,
+    accessExpiresAt,
+    refreshExpiresAt,
   });
   return data.accessToken;
 };
@@ -54,7 +71,23 @@ const request = async (path, { method = "GET", body, headers = {}, auth = true }
 
   if (auth) {
     const accessToken = await getAccessToken();
-    if (accessToken) finalHeaders.Authorization = `Bearer ${accessToken}`;
+    const refreshExpired = await isRefreshTokenExpired();
+
+    if (!accessToken && refreshExpired) {
+      throw new ApiError("Session expired. Please login again.", 401);
+    }
+
+    const accessExpired = await isAccessTokenExpired();
+    if (accessExpired) {
+      try {
+        await tryRefreshToken();
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    const currentAccessToken = await getAccessToken();
+    if (currentAccessToken) finalHeaders.Authorization = `Bearer ${currentAccessToken}`;
   }
 
   let response = await fetch(url, {
@@ -78,7 +111,6 @@ const request = async (path, { method = "GET", body, headers = {}, auth = true }
           notifyPending();
         } catch (refreshError) {
           notifyPending(refreshError);
-          await clearAuth();
           throw refreshError;
         } finally {
           isRefreshing = false;

@@ -11,11 +11,12 @@ import ReceptionistDashboard from "../screens/ReceptionistDashboard";
 import { ToastProvider } from "../components/Toast";
 import { AuthProvider, useAuth } from "../state/store";
 import { colors } from "../styles/colors";
+import { getScreenForRole } from "../utils/roles";
 
 const Stack = createStackNavigator();
 
 function AppStack() {
-  const { isAuthenticated, isAuthenticating } = useAuth();
+  const { isAuthenticated, isAuthenticating, selectedRole } = useAuth();
 
   if (isAuthenticating) {
     return (
@@ -25,8 +26,14 @@ function AppStack() {
     );
   }
 
+  const initialRouteName = !isAuthenticated
+    ? "Login"
+    : selectedRole && getScreenForRole(selectedRole)
+      ? getScreenForRole(selectedRole)
+      : "RoleSelection";
+
   return (
-    <Stack.Navigator initialRouteName={isAuthenticated ? "RoleSelection" : "Login"}>
+    <Stack.Navigator initialRouteName={initialRouteName}>
       {!isAuthenticated ? (
         <Stack.Screen
           name="Login"

@@ -5,8 +5,18 @@ import {
   getSelectedRole,
   saveSelectedRole,
   clearAuth,
+  isAccessTokenExpired,
+  isRefreshTokenExpired,
+  getAccessTokenExpiry,
 } from "../services/tokenStorage";
-import { logout as logoutService } from "../services/authService";
+import {
+  logout as logoutService,
+  refreshAccessToken,
+} from "../services/authService";
+import {
+  SESSION_CHECK_INTERVAL_MS,
+  SESSION_REFRESH_MARGIN_MS,
+} from "../config";
 
 const AuthContext = createContext(null);
 
@@ -18,6 +28,8 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const loadAuth = async () => {
       try {
         const [storedUser, accessToken, storedRole] = await Promise.all([
@@ -25,29 +37,103 @@ export const AuthProvider = ({ children }) => {
           getAccessToken(),
           getSelectedRole(),
         ]);
-        if (storedUser && accessToken) {
+
+        const hasValidUser = storedUser && typeof storedUser === "object" && accessToken;
+        const accessExpired = accessToken ? await isAccessTokenExpired() : true;
+        const refreshExpired = accessToken ? await isRefreshTokenExpired() : true;
+
+        if (!hasValidUser || accessExpired && refreshExpired) {
+          await clearAuth();
+          if (isMounted) {
+            setUser(null);
+            setRoles([]);
+            setSelectedRoleState(null);
+            setIsAuthenticated(false);
+          }
+          return;
+        }
+
+        const normalizedRoles = Array.isArray(storedUser.roles) ? storedUser.roles : [];
+
+        if (isMounted) {
           setUser(storedUser);
-          setRoles(storedUser.roles || []);
+          setRoles(normalizedRoles);
           setSelectedRoleState(storedRole || null);
           setIsAuthenticated(true);
         }
       } catch (error) {
         console.log("Error loading auth state", error);
+        if (isMounted) {
+          await clearAuth();
+          setUser(null);
+          setRoles([]);
+          setSelectedRoleState(null);
+          setIsAuthenticated(false);
+        }
       } finally {
-        setIsAuthenticating(false);
+        if (isMounted) {
+          setIsAuthenticating(false);
+        }
       }
     };
+
     loadAuth();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
+  useEffect(() => {
+    if (!isAuthenticated) return undefined;
+
+    let isCancelled = false;
+
+    const refreshSessionIfNeeded = async () => {
+      try {
+        const accessToken = await getAccessToken();
+        if (!accessToken) return;
+
+        const expiryTime = await getAccessTokenExpiry();
+        const timeRemainingMs = expiryTime - Date.now();
+
+        if (timeRemainingMs <= SESSION_REFRESH_MARGIN_MS) {
+          await refreshAccessToken();
+        }
+      } catch (error) {
+        console.log("Background token refresh failed", error);
+        if (isCancelled) return;
+        await clearAuth();
+        setUser(null);
+        setRoles([]);
+        setSelectedRoleState(null);
+        setIsAuthenticated(false);
+      }
+    };
+
+    refreshSessionIfNeeded();
+    const timerId = setInterval(refreshSessionIfNeeded, SESSION_CHECK_INTERVAL_MS);
+
+    return () => {
+      isCancelled = true;
+      clearInterval(timerId);
+    };
+  }, [isAuthenticated]);
+
   const login = useCallback((userData, userRoles) => {
+    const normalizedRoles = Array.isArray(userRoles)
+      ? userRoles
+      : Array.isArray(userData?.roles)
+        ? userData.roles
+        : [];
+
     setUser(userData);
-    setRoles(userRoles || userData?.roles || []);
+    setRoles(normalizedRoles);
     setSelectedRoleState(null);
     setIsAuthenticated(true);
   }, []);
 
-const setSelectedRole = useCallback(async (role) => {
+  const setSelectedRole = useCallback(async (role) => {
     setSelectedRoleState(role);
     await saveSelectedRole(role);
   }, []);
