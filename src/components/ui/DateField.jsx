@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 import { addDays, prettyDate } from '../../utils/format';
 
@@ -14,14 +14,14 @@ export default function DateField({ label, value, onChange, style }) {
       {label ? <Text style={s.label}>{label}</Text> : null}
       <View style={s.box}>
         <Pressable onPress={() => onChange(addDays(value, -1))} hitSlop={8} style={s.arrow} accessibilityLabel="Previous day">
-          <Ionicons name="chevron-back" size={20} color={t.colors.primary} />
+          <Icon name="chevron-back" size={20} color={t.colors.primary} />
         </Pressable>
         <View style={s.mid}>
-          <Ionicons name="calendar-outline" size={17} color={t.colors.textMuted} />
+          <Icon name="calendar-outline" size={17} color={t.colors.textMuted} />
           <Text style={s.value}>{prettyDate(value)}</Text>
         </View>
         <Pressable onPress={() => onChange(addDays(value, 1))} hitSlop={8} style={s.arrow} accessibilityLabel="Next day">
-          <Ionicons name="chevron-forward" size={20} color={t.colors.primary} />
+          <Icon name="chevron-forward" size={20} color={t.colors.primary} />
         </Pressable>
       </View>
     </View>

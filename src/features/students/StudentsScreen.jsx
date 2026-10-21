@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Pressable, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '../../components/ui/Icon';
 import { Screen, Card, ListRow, SearchBar, EmptyState } from '../../components/ui';
 import { useTheme } from '../../theme';
 import useAsync, { useReloadOnFocus } from '../../hooks/useAsync';
@@ -19,7 +19,7 @@ export default function StudentsScreen({ navigation }) {
       title="Students" subtitle="School admin" onBack={navigation.goBack} onRefresh={reload} refreshing={loading && !!data}
       right={
         <Pressable onPress={() => navigation.navigate('AddStudent')} style={{ width: 42, height: 42, borderRadius: 21, backgroundColor: t.colors.primary, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel="Add student">
-          <Ionicons name="person-add-outline" size={20} color={t.colors.onPrimary} />
+          <Icon name="person-add-outline" size={20} color={t.colors.onPrimary} />
         </Pressable>
       }
     >

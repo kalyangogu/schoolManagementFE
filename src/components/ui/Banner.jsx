@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 import { toneColors } from './StatTile';
 
@@ -12,7 +12,7 @@ export default function Banner({ text, tone = 'primary', style }) {
   const { fg, bg } = toneColors(t, tone);
   return (
     <View style={[s.box, { backgroundColor: bg }, style]}>
-      <Ionicons name={ICONS[tone] || ICONS.primary} size={20} color={fg} />
+      <Icon name={ICONS[tone] || ICONS.primary} size={20} color={fg} />
       <Text style={[s.text, { color: t.colors.text }]}>{text}</Text>
     </View>
   );

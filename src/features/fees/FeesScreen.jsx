@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '../../components/ui/Icon';
 import { Screen, Banner } from '../../components/ui';
 import { useTheme, useStyles } from '../../theme';
 import SetClassFee from './SetClassFee';
@@ -28,7 +28,7 @@ export default function FeesScreen({ navigation }) {
           const on = x.key === tab;
           return (
             <Pressable key={x.key} onPress={() => setTab(x.key)} style={[s.tab, on && s.tabOn]}>
-              <Ionicons name={x.icon} size={22} color={on ? t.colors.onPrimary : t.colors.primary} />
+              <Icon name={x.icon} size={22} color={on ? t.colors.onPrimary : t.colors.primary} />
               <Text style={[s.tabText, on && { color: t.colors.onPrimary }]}>{x.label}</Text>
             </Pressable>
           );

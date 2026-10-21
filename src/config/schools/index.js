@@ -5,5 +5,5 @@ import sunrise from './sunrise.json';
 
 export const SCHOOLS = { greenvalley, sunrise };
 
-const requested = process.env.EXPO_PUBLIC_SCHOOL || 'sunrise';
-export const activeSchool = SCHOOLS[requested] || sunrise;
+const requested = process.env.EXPO_PUBLIC_SCHOOL || 'greenvalley';
+export const activeSchool = SCHOOLS[requested] || greenvalley;

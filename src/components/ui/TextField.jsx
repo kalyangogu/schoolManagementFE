@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 
-export default function TextField({ label, required, error, hint, icon, prefix, multiline, style, ...inputProps }) {
+export default function TextField({ label, required, error, hint, icon, prefix, right, multiline, style, ...inputProps }) {
   const t = useTheme();
   const s = useStyles(makeStyles);
   const [focused, setFocused] = useState(false);
@@ -16,7 +16,7 @@ export default function TextField({ label, required, error, hint, icon, prefix, 
         </Text>
       ) : null}
       <View style={[s.box, focused && s.focused, !!error && s.errorBox, multiline && s.multiBox]}>
-        {icon ? <Ionicons name={icon} size={19} color={t.colors.textMuted} style={{ marginRight: 8 }} /> : null}
+        {icon ? <Icon name={icon} size={19} color={t.colors.textMuted} style={{ marginRight: 8 }} /> : null}
         {prefix ? <Text style={s.prefix}>{prefix}</Text> : null}
         <TextInput
           {...inputProps}
@@ -26,6 +26,7 @@ export default function TextField({ label, required, error, hint, icon, prefix, 
           onBlur={(e) => { setFocused(false); inputProps.onBlur && inputProps.onBlur(e); }}
           style={[s.input, multiline && { minHeight: 88, textAlignVertical: 'top' }]}
         />
+        {right}
       </View>
       {error ? <Text style={s.error}>{error}</Text> : hint ? <Text style={s.hint}>{hint}</Text> : null}
     </View>

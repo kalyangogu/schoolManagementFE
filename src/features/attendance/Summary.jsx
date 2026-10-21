@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Pressable, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '../../components/ui/Icon';
 import { Card, Select, DateField, Button, StatTile, ListRow, EmptyState } from '../../components/ui';
 import { useTheme } from '../../theme';
 import { api } from '../../services/api';
@@ -42,7 +42,7 @@ export default function Summary() {
                 <ListRow
                   avatar={null} title={d.date} subtitle={`${d.students.length} student${d.students.length === 1 ? '' : 's'} absent`}
                   onPress={() => setOpen(isOpen ? null : d.date)}
-                  right={<Ionicons name={isOpen ? 'chevron-up' : 'chevron-down'} size={18} color={t.colors.textMuted} />}
+                  right={<Icon name={isOpen ? 'chevron-up' : 'chevron-down'} size={18} color={t.colors.textMuted} />}
                 />
                 {isOpen ? d.students.map((s) => <ListRow key={s.id} icon="person-remove-outline" title={s.name} subtitle={s.phone} style={{ marginTop: 6, marginLeft: 12 }} />) : null}
               </View>

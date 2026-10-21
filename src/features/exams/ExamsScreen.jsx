@@ -15,8 +15,8 @@ const ALL_TABS = [
 
 export default function ExamsScreen({ navigation }) {
   const { activeProfile } = useAuth();
-  // Students can only look at results.
-  const tabs = activeProfile.role === 'STUDENT' ? ALL_TABS.filter((t) => t.key === 'results') : ALL_TABS;
+  // Students and parents can only look at results.
+  const tabs = ['STUDENT', 'PARENT'].includes(activeProfile.role) ? ALL_TABS.filter((t) => t.key === 'results') : ALL_TABS;
   const [tab, setTab] = useState(tabs[0].key);
   const active = tabs.find((t) => t.key === tab) || tabs[0];
   const Active = active.View;

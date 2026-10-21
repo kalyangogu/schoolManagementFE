@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, Pressable, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 
 // tabs: [{ key, label, icon? }]
@@ -13,7 +13,7 @@ export default function SegmentedTabs({ tabs, value, onChange }) {
         const on = tab.key === value;
         return (
           <Pressable key={tab.key} onPress={() => onChange(tab.key)} style={[s.tab, on && s.tabOn]}>
-            {on ? <Ionicons name="checkmark" size={15} color={t.colors.primary} /> : tab.icon ? <Ionicons name={tab.icon} size={15} color={t.colors.textMuted} /> : null}
+            {on ? <Icon name="checkmark" size={15} color={t.colors.primary} /> : tab.icon ? <Icon name={tab.icon} size={15} color={t.colors.textMuted} /> : null}
             <Text style={[s.text, on && { color: t.colors.primary }]}>{tab.label}</Text>
           </Pressable>
         );

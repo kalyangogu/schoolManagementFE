@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '../../components/ui/Icon';
 import { Screen, Card, SegmentedTabs, SearchBar, ListRow, TextField, DateField, Button, EmptyState } from '../../components/ui';
 import { useTheme } from '../../theme';
 import useAsync from '../../hooks/useAsync';
@@ -37,7 +37,7 @@ export default function CircularsScreen({ navigation }) {
           {!list.data ? <EmptyState loading /> : list.data.length === 0 ? <EmptyState icon="megaphone-outline" text="No circulars found." /> : list.data.map((c) => (
             <View key={c.id}>
               <ListRow avatar={null} title={c.title} subtitle={c.date} onPress={() => setOpen(open === c.id ? null : c.id)}
-                right={<Ionicons name={open === c.id ? 'chevron-up' : 'chevron-down'} size={18} color={t.colors.textMuted} />} />
+                right={<Icon name={open === c.id ? 'chevron-up' : 'chevron-down'} size={18} color={t.colors.textMuted} />} />
               {open === c.id ? <Text style={{ padding: 12, color: t.colors.text, lineHeight: 21 }}>{c.content}</Text> : null}
             </View>
           ))}

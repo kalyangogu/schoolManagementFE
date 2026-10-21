@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 import BottomSheet from './BottomSheet';
 
@@ -22,7 +22,7 @@ export default function Select({ label, value, options = [], onChange, placehold
         <Text style={[s.value, !selected && { color: t.colors.textMuted + 'AA' }]} numberOfLines={1}>
           {selected ? selected.label : placeholder}
         </Text>
-        <Ionicons name="chevron-down" size={18} color={t.colors.textMuted} />
+        <Icon name="chevron-down" size={18} color={t.colors.textMuted} />
       </Pressable>
       {error ? <Text style={s.error}>{error}</Text> : null}
       <BottomSheet visible={open} onClose={() => setOpen(false)} title={label || 'Choose'}>
@@ -32,7 +32,7 @@ export default function Select({ label, value, options = [], onChange, placehold
           return (
             <Pressable key={String(o.value)} onPress={() => { onChange && onChange(o.value); setOpen(false); }} style={[s.option, on && s.optionOn]}>
               <Text style={[s.optionText, on && { color: t.colors.primary, fontWeight: '700' }]}>{o.label}</Text>
-              {on ? <Ionicons name="checkmark-circle" size={20} color={t.colors.primary} /> : null}
+              {on ? <Icon name="checkmark-circle" size={20} color={t.colors.primary} /> : null}
             </Pressable>
           );
         })}

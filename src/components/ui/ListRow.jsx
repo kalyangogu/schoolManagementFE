@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 import Avatar from './Avatar';
 
@@ -9,7 +9,7 @@ export default function ListRow({ title, subtitle, caption, avatar, icon, right,
   const t = useTheme();
   const s = useStyles(makeStyles);
   const left = icon ? (
-    <Avatar size={42}><Ionicons name={icon} size={20} color={t.colors.primary} /></Avatar>
+    <Avatar size={42}><Icon name={icon} size={20} color={t.colors.primary} /></Avatar>
   ) : avatar !== null ? (
     <Avatar name={avatar || title} />
   ) : null;
@@ -21,7 +21,7 @@ export default function ListRow({ title, subtitle, caption, avatar, icon, right,
         {subtitle ? <Text style={s.sub} numberOfLines={2}>{subtitle}</Text> : null}
         {caption ? <Text style={s.caption}>{caption}</Text> : null}
       </View>
-      {right || (onPress ? <Ionicons name="chevron-forward" size={18} color={t.colors.textMuted} /> : null)}
+      {right || (onPress ? <Icon name="chevron-forward" size={18} color={t.colors.textMuted} /> : null)}
     </Pressable>
   );
 }

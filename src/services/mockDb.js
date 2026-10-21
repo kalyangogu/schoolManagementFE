@@ -56,3 +56,46 @@ export const db = {
   ],
   holidaySms: [{ id: 1, date: '2026-06-01', reason: 'Rain', classCount: 8 }],
 };
+
+// ── Extra seed data: staff attendance, exams, events ─────────────────────────
+db.staff.push(
+  { id: 5, name: 'Meera Nair', phone: '9000011111', roles: ['TEACHER'], active: true },
+  { id: 6, name: 'Ravi Teja', phone: '9000022222', roles: ['TEACHER'], active: true }
+);
+db.staffCorrections = {}; // "teacherId|date" -> { status, reason }
+db.holidays = {
+  '2026-08-15': 'Independence Day',
+  '2026-10-02': 'Gandhi Jayanti',
+  '2026-10-20': 'Dussehra',
+  '2026-11-08': 'Diwali',
+  '2026-12-25': 'Christmas',
+};
+
+db.examGroups = [{ id: 1, name: 'Term 1' }, { id: 2, name: 'FA1' }];
+db.exams = []; // { id, groupId, classId, subject, date, maxMarks }
+db.marks = {}; // examId -> { studentId: marks }
+['Maths', 'Telugu', 'Hindi', 'English'].forEach((subject, i) => {
+  const e = { id: uid(), groupId: 1, classId: 1, subject, date: `2026-09-${10 + i}`, maxMarks: 100 };
+  db.exams.push(e);
+  db.marks[e.id] = {};
+  db.students.filter((s) => s.classId === 1).forEach((s) => { db.marks[e.id][s.id] = 55 + ((s.id * 7 + i * 13) % 40); });
+});
+
+db.events = [
+  { id: 1, name: 'Annual Day', date: '2026-06-13', summary: 'Cultural programmes by all classes.', classIds: [1, 2, 3, 4, 5, 6, 7, 8], photos: [] },
+  { id: 2, name: 'Science Fair', date: '2026-04-19', summary: 'Student projects and demos in the school hall.', classIds: [3, 4, 5], photos: [] },
+];
+
+// ── Auth mock data ───────────────────────────────────────────────────────────
+// Demo logins:  STUDENT adm001 / student123 · STAFF admin@school.com (or admin01) / admin123
+//               STAFF teacher01 / teacher123 (no security questions set) · PARENT parent@mail.com / parent123
+const sec = [{ questionId: 'pet', answer: 'tommy' }, { questionId: 'city', answer: 'hyderabad' }, { questionId: 'school', answer: 'sunrise' }];
+db.users = [
+  { id: 'u1', account: 'STUDENT', loginIds: ['adm001'], password: 'student123', security: sec, profiles: [{ id: 'p-s1', name: 'Avinash', role: 'STUDENT' }] },
+  { id: 'u2', account: 'STAFF', loginIds: ['admin@school.com', 'admin01'], password: 'admin123', security: [], profiles: [{ id: 'p-a1', name: 'Avinash', role: 'SCHOOL_ADMIN' }, { id: 'p-a2', name: 'Avinash', role: 'ACCOUNTANT' }] },
+  { id: 'u3', account: 'STAFF', loginIds: ['teacher@school.com', 'teacher01'], password: 'teacher123', security: [], profiles: [{ id: 'p-t1', name: 'Prajeeth', role: 'TEACHER' }] },
+  { id: 'u4', account: 'PARENT', loginIds: ['parent@mail.com'], password: 'parent123', security: [], profiles: [{ id: 'p-p1', name: 'Parent of Avinash', role: 'PARENT' }] },
+  { id: 'u5', account: 'STUDENT', loginIds: ['adm002'], password: 'student123', security: [], profiles: [{ id: 'p-s2', name: 'Prajeeth', role: 'STUDENT' }] },
+];
+db.currentUserId = null;
+db.resetTokens = {};

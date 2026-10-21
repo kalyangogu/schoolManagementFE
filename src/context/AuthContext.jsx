@@ -33,12 +33,12 @@ export function AuthProvider({ children }) {
     } catch (e) { /* ignore storage errors */ }
   }, []);
 
-  const requestOtp = useCallback((mobile) => api.auth.requestOtp({ mobile }), []);
+  // Everything below ends in a saved session; the navigator then moves to Home by itself.
+  const startSession = useCallback((res, loginId) => persist({ token: res.token, profiles: res.profiles, activeId: res.profiles[0].id, loginId }), [persist]);
 
-  const verifyOtp = useCallback(async (mobile, otp) => {
-    const res = await api.auth.verifyOtp({ mobile, otp });
-    await persist({ token: res.token, profiles: res.profiles, activeId: res.profiles[0].id });
-  }, [persist]);
+  const login = useCallback(async ({ account, identifier, password }) => startSession(await api.auth.login({ account, identifier: identifier.trim(), password }), identifier.trim()), [startSession]);
+  const requestOtp = useCallback((identifier) => api.auth.sendOtp({ identifier }), []);
+  const verifyOtp = useCallback(async (identifier, otp) => startSession(await api.auth.verifyOtp({ identifier, otp }), identifier), [startSession]);
 
   const switchProfile = useCallback((id) => persist({ ...session, activeId: id }), [persist, session]);
   const logout = useCallback(() => persist(null), [persist]);
@@ -48,11 +48,12 @@ export function AuthProvider({ children }) {
     return {
       ready,
       isLoggedIn: !!session,
+      loginId: session ? session.loginId : null,
       profiles,
       activeProfile: profiles.find((p) => p.id === (session && session.activeId)) || null,
-      requestOtp, verifyOtp, switchProfile, logout,
+      login, requestOtp, verifyOtp, switchProfile, logout,
     };
-  }, [ready, session, requestOtp, verifyOtp, switchProfile, logout]);
+  }, [ready, session, login, requestOtp, verifyOtp, switchProfile, logout]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

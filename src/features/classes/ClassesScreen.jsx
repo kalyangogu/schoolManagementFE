@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '../../components/ui/Icon';
 import { Screen, ListRow, EmptyState } from '../../components/ui';
 import { useTheme } from '../../theme';
 import useAsync, { useReloadOnFocus } from '../../hooks/useAsync';
@@ -15,7 +15,7 @@ export default function ClassesScreen({ navigation }) {
       title="Classes" subtitle="Choose a class to continue" onBack={navigation.goBack} onRefresh={reload} refreshing={loading && !!data}
       right={
         <Pressable onPress={() => navigation.navigate('AddClass')} style={{ width: 42, height: 42, borderRadius: 21, backgroundColor: t.colors.primary, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel="Add class">
-          <Ionicons name="add" size={24} color={t.colors.onPrimary} />
+          <Icon name="add" size={24} color={t.colors.onPrimary} />
         </Pressable>
       }
     >

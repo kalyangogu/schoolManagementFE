@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 
 export default function EmptyState({ icon = 'file-tray-outline', text, loading }) {
@@ -8,7 +8,7 @@ export default function EmptyState({ icon = 'file-tray-outline', text, loading }
   const s = useStyles(makeStyles);
   return (
     <View style={s.box}>
-      {loading ? <ActivityIndicator color={t.colors.primary} /> : <Ionicons name={icon} size={30} color={t.colors.textMuted + '99'} />}
+      {loading ? <ActivityIndicator color={t.colors.primary} /> : <Icon name={icon} size={30} color={t.colors.textMuted + '99'} />}
       {!loading && text ? <Text style={s.text}>{text}</Text> : null}
     </View>
   );

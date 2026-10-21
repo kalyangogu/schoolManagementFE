@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text, ActivityIndicator, View, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 
 // variant: primary | outline | soft | danger | ghost
@@ -23,7 +23,7 @@ export default function Button({ title, onPress, icon, variant = 'primary', load
         <ActivityIndicator color={fg} />
       ) : (
         <View style={s.row}>
-          {icon ? <Ionicons name={icon} size={small ? 16 : 19} color={fg} /> : null}
+          {icon ? <Icon name={icon} size={small ? 16 : 19} color={fg} /> : null}
           <Text style={[s.text, small && s.textSmall, { color: fg }]}>{title}</Text>
         </View>
       )}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '../../components/ui/Icon';
 import { Card, Select, DateField, Button, EmptyState, Banner } from '../../components/ui';
 import { useTheme } from '../../theme';
 import useAsync from '../../hooks/useAsync';
@@ -43,13 +43,13 @@ export default function MarkAttendance() {
             return (
               <Pressable key={s.id} onPress={() => setAbsent((a) => ({ ...a, [s.id]: !a[s.id] }))} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 8 }}>
                 <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: on ? t.colors.dangerTint : t.colors.successTint, alignItems: 'center', justifyContent: 'center' }}>
-                  <Ionicons name={on ? 'close' : 'checkmark'} size={20} color={on ? t.colors.danger : t.colors.success} />
+                  <Icon name={on ? 'close' : 'checkmark'} size={20} color={on ? t.colors.danger : t.colors.success} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={{ fontWeight: '700', color: t.colors.text }}>{s.name}</Text>
                   <Text style={{ color: t.colors.textMuted, fontSize: t.fontSize.sm }}>{s.phone || 'No phone'}</Text>
                 </View>
-                <Ionicons name={on ? 'checkbox' : 'square-outline'} size={24} color={on ? t.colors.danger : t.colors.textMuted} />
+                <Icon name={on ? 'checkbox' : 'square-outline'} size={24} color={on ? t.colors.danger : t.colors.textMuted} />
               </Pressable>
             );
           })}

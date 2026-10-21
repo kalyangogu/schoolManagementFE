@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 
 // tone: primary | success | danger | warning | info | purple | neutral
@@ -25,7 +25,7 @@ export default function StatTile({ label, value, tone = 'primary', icon, style }
   const { fg, bg } = toneColors(t, tone);
   return (
     <View style={[s.tile, { backgroundColor: bg }, style]}>
-      {icon ? <Ionicons name={icon} size={20} color={fg} /> : null}
+      {icon ? <Icon name={icon} size={20} color={fg} /> : null}
       <Text style={[s.value, { color: fg }]} numberOfLines={1} adjustsFontSizeToFit>{value}</Text>
       <Text style={s.label}>{label}</Text>
     </View>

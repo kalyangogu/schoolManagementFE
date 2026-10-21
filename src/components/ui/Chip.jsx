@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 
 export default function Chip({ label, selected, onPress }) {
@@ -8,7 +8,7 @@ export default function Chip({ label, selected, onPress }) {
   const s = useStyles(makeStyles);
   return (
     <Pressable onPress={onPress} style={[s.chip, selected && s.on]}>
-      {selected ? <Ionicons name="checkmark" size={14} color={t.colors.primary} /> : null}
+      {selected ? <Icon name="checkmark" size={14} color={t.colors.primary} /> : null}
       <Text style={[s.text, selected && { color: t.colors.primary }]}>{label}</Text>
     </Pressable>
   );

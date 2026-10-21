@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../theme';
 import LoginScreen from '../features/auth/LoginScreen';
+import ForgotPasswordScreen from '../features/auth/ForgotPasswordScreen';
 import HomeScreen from '../features/home/HomeScreen';
 import { MODULES, EXTRA_SCREENS } from './modules';
 
@@ -41,7 +42,10 @@ export default function RootNavigator() {
             {EXTRA_SCREENS.map((s) => <Stack.Screen key={s.name} name={s.name} component={s.component} />)}
           </>
         ) : (
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

@@ -22,6 +22,13 @@ export const ROLE_LABEL = {
   TEACHER: 'Teacher',
   ACCOUNTANT: 'Accountant',
   STUDENT: 'Student',
+  PARENT: 'Parent',
 };
 
 export const isValidPhone = (v) => /^\d{10}$/.test(v);
+
+export const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '').trim());
+
+// Adjust to whatever rule the backend enforces.
+export const PASSWORD_MIN = 6;
+export const isValidPassword = (v) => String(v || '').length >= PASSWORD_MIN;

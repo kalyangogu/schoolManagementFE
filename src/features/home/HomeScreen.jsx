@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, ScrollView, Alert, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '../../components/ui/Icon';
 import { Avatar, BottomSheet } from '../../components/ui';
 import { useStyles, useTheme } from '../../theme';
 import { useAuth } from '../../context/AuthContext';
@@ -32,10 +32,15 @@ export default function HomeScreen({ navigation }) {
               <Text style={s.name} numberOfLines={1}>{activeProfile.name}</Text>
               <Text style={s.hint} numberOfLines={1}>{ROLE_LABEL[activeProfile.role]} · Tap to change</Text>
             </View>
-            <Ionicons name="chevron-down" size={18} color={t.colors.textMuted} />
+            <Icon name="chevron-down" size={18} color={t.colors.textMuted} />
           </Pressable>
+          {activeProfile.role === 'STUDENT' ? (
+            <Pressable onPress={() => navigation.navigate('SecurityQuestions')} hitSlop={8} accessibilityLabel="Security questions">
+              <Icon name="shield-account-outline" size={24} color={t.colors.primary} />
+            </Pressable>
+          ) : null}
           <Pressable onPress={confirmLogout} hitSlop={8} accessibilityLabel="Log out">
-            <Ionicons name="log-out-outline" size={24} color={t.colors.primary} />
+            <Icon name="log-out-outline" size={24} color={t.colors.primary} />
           </Pressable>
         </View>
 
@@ -47,7 +52,7 @@ export default function HomeScreen({ navigation }) {
         <View style={s.grid}>
           {modules.map((m) => (
             <Pressable key={m.key} onPress={() => navigation.navigate(m.key)} style={({ pressed }) => [s.tile, pressed && { opacity: 0.8 }]}>
-              <View style={s.iconBox}><Ionicons name={m.icon} size={24} color={t.colors.primary} /></View>
+              <View style={s.iconBox}><Icon name={m.icon} size={24} color={t.colors.primary} /></View>
               <Text style={s.tileText} numberOfLines={2}>{m.title}</Text>
             </Pressable>
           ))}
@@ -64,7 +69,7 @@ export default function HomeScreen({ navigation }) {
                 <Text style={s.name}>{p.name}</Text>
                 <Text style={s.hint}>{ROLE_LABEL[p.role]} | {activeSchool.displayName}</Text>
               </View>
-              {on ? <Ionicons name="checkmark-circle" size={22} color={t.colors.primary} /> : null}
+              {on ? <Icon name="checkmark-circle" size={22} color={t.colors.primary} /> : null}
             </Pressable>
           );
         })}

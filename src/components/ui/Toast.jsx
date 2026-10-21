@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { Animated, Text, View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme } from '../../theme';
 
 const ToastContext = createContext({ success() {}, error() {} });
@@ -32,7 +32,7 @@ export function ToastProvider({ children }) {
       {toast ? (
         <Animated.View pointerEvents="none" style={[styles.wrap, { opacity, bottom: insets.bottom + 24 }]}>
           <View style={[styles.box, { backgroundColor: ok ? t.colors.primaryDark : t.colors.danger }]}>
-            <Ionicons name={ok ? 'checkmark-circle' : 'alert-circle'} size={20} color="#fff" />
+            <Icon name={ok ? 'checkmark-circle' : 'alert-circle'} size={20} color="#fff" />
             <Text style={styles.text}>{toast.message}</Text>
           </View>
         </Animated.View>

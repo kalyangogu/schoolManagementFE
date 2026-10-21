@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable, RefreshControl, KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from './Icon';
 import { useTheme, useStyles } from '../../theme';
 
 // Page wrapper: safe area + optional header (back button, title, right action) + scrolling body.
@@ -14,7 +14,7 @@ export default function Screen({ title, subtitle, onBack, right, children, onRef
         <View style={s.header}>
           {onBack ? (
             <Pressable onPress={onBack} style={s.backBtn} hitSlop={8} accessibilityLabel="Go back">
-              <Ionicons name="arrow-back" size={22} color={t.colors.primary} />
+              <Icon name="arrow-back" size={22} color={t.colors.primary} />
             </Pressable>
           ) : null}
           <View style={s.headerText}>

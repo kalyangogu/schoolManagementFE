@@ -15,12 +15,16 @@ import DiaryScreen from '../features/diary/DiaryScreen';
 import InventoryScreen from '../features/inventory/InventoryScreen';
 import CircularsScreen from '../features/circulars/CircularsScreen';
 import HolidaySmsScreen from '../features/holiday/HolidaySmsScreen';
-import ComingSoonScreen from '../features/common/ComingSoonScreen';
+import StaffAttendanceScreen from '../features/staffAttendance/StaffAttendanceScreen';
+import SecurityQuestionsScreen from '../features/auth/SecurityQuestionsScreen';
+import ExamsScreen from '../features/exams/ExamsScreen';
+import EventsScreen from '../features/events/EventsScreen';
 
 const ADMIN = 'SCHOOL_ADMIN';
 const TEACHER = 'TEACHER';
 const ACCOUNTANT = 'ACCOUNTANT';
 const STUDENT = 'STUDENT';
+const PARENT = 'PARENT';
 
 // Tiles on the Home screen (in this order)
 export const MODULES = [
@@ -29,12 +33,12 @@ export const MODULES = [
   { key: 'Users', title: 'Users', icon: 'shield-checkmark-outline', component: StaffScreen, roles: [ADMIN] },
   { key: 'Fees', title: 'Fees', icon: 'cash-outline', component: FeesScreen, roles: [ADMIN, ACCOUNTANT] },
   { key: 'Attendance', title: 'Student attendance', icon: 'checkmark-done-outline', component: AttendanceScreen, roles: [ADMIN, TEACHER] },
-  { key: 'StaffAttendance', title: 'Staff attendance', icon: 'id-card-outline', component: ComingSoonScreen, roles: [ADMIN] },
-  { key: 'Diary', title: 'Diary', icon: 'journal-outline', component: DiaryScreen, roles: [ADMIN, TEACHER, STUDENT] },
+  { key: 'StaffAttendance', title: 'Staff attendance', icon: 'id-card-outline', component: StaffAttendanceScreen, roles: [ADMIN] },
+  { key: 'Diary', title: 'Diary', icon: 'journal-outline', component: DiaryScreen, roles: [ADMIN, TEACHER, STUDENT, PARENT] },
   { key: 'Inventory', title: 'Inventory', icon: 'cube-outline', component: InventoryScreen, roles: [ADMIN, ACCOUNTANT] },
-  { key: 'Exams', title: 'Exams', icon: 'school-outline', component: ComingSoonScreen, roles: [ADMIN, TEACHER, STUDENT] },
-  { key: 'Circulars', title: 'Circulars', icon: 'megaphone-outline', component: CircularsScreen, roles: [ADMIN, TEACHER, ACCOUNTANT, STUDENT] },
-  { key: 'Events', title: 'Events', icon: 'calendar-outline', component: ComingSoonScreen, roles: [ADMIN, TEACHER, STUDENT] },
+  { key: 'Exams', title: 'Exams', icon: 'school-outline', component: ExamsScreen, roles: [ADMIN, TEACHER, STUDENT, PARENT] },
+  { key: 'Circulars', title: 'Circulars', icon: 'megaphone-outline', component: CircularsScreen, roles: [ADMIN, TEACHER, ACCOUNTANT, STUDENT, PARENT] },
+  { key: 'Events', title: 'Events', icon: 'calendar-star', component: EventsScreen, roles: [ADMIN, TEACHER, STUDENT, PARENT] },
   { key: 'HolidaySms', title: 'Holiday SMS', icon: 'chatbubble-ellipses-outline', component: HolidaySmsScreen, roles: [ADMIN] },
 ];
 
@@ -44,6 +48,7 @@ export const EXTRA_SCREENS = [
   { name: 'AddClass', component: AddClassScreen },
   { name: 'ClassDetail', component: ClassDetailScreen },
   { name: 'AddStaff', component: AddStaffScreen },
+  { name: 'SecurityQuestions', component: SecurityQuestionsScreen },
 ];
 
 export const modulesForRole = (role) => MODULES.filter((m) => m.roles.includes(role));

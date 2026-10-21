@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '../../components/ui/Icon';
 import { Screen, Card, SegmentedTabs, SearchBar, ListRow, TextField, Button, Select, Chip, EmptyState } from '../../components/ui';
 import { useTheme } from '../../theme';
 import useAsync from '../../hooks/useAsync';
@@ -60,7 +60,7 @@ function Items({ items, q, setQ }) {
       <Card>
         <Pressable onPress={() => setShowCreate((s) => !s)} style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={{ flex: 1, fontSize: t.fontSize.lg, fontWeight: '700', color: t.colors.text }}>Create inventory item</Text>
-          <Ionicons name={showCreate ? 'chevron-up' : 'chevron-down'} size={20} color={t.colors.textMuted} />
+          <Icon name={showCreate ? 'chevron-up' : 'chevron-down'} size={20} color={t.colors.textMuted} />
         </Pressable>
         {showCreate ? (
           <>
@@ -91,7 +91,7 @@ function Logs({ items }) {
       </View>
       {!itemId ? null : (logs.data || []).length === 0 ? <EmptyState text="No stock movement yet." /> : logs.data.map((l) => (
         <ListRow key={l.id} avatar={null} title={`${l.type} ${l.quantity}`} subtitle={l.date}
-          right={<Ionicons name={l.type === 'IN' ? 'arrow-down' : 'arrow-up'} size={20} color={l.type === 'IN' ? t.colors.success : t.colors.danger} />} />
+          right={<Icon name={l.type === 'IN' ? 'arrow-down' : 'arrow-up'} size={20} color={l.type === 'IN' ? t.colors.success : t.colors.danger} />} />
       ))}
     </Card>
   );
