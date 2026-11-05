@@ -555,3 +555,9 @@
 {"_e":"metro:bundling:progress","_t":1792300567368,"id":"b","progress":0,"total":1,"current":0}
 {"_e":"metro:bundling:progress","_t":1792300568200,"id":"b","progress":0,"total":1,"current":0}
 {"_e":"metro:bundling:done","_t":1792300574728,"id":"b","total":1,"ms":11541.4086}
+{"_e":"root:init","_t":1793893329751,"format":"v0-jsonl","version":"57.0.33"}
+{"_e":"env:mode","_t":1793893329755,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1793893329763,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1793893330997,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1793893332388,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1793893334866,"plugins":[]}
