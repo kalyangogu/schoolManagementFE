@@ -1,0 +1,16 @@
+{
+  "id": "greenvalley",
+  "appName": "Green Valley School",
+  "slug": "green-valley-school",
+  "bundleId": "com.schoolapp.greenvalley",
+  "displayName": "Green Valley School",
+  "tagline": "Learning, together.",
+  "logoText": "GV",
+  "cornerScale": 1,
+  "colors": {
+    "primary": "#0F766E",
+    "primaryDark": "#17413B",
+    "primaryTint": "#E3F2EF",
+    "background": "#F4F8F8"
+  }
+}
