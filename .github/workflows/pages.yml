@@ -16,21 +16,35 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      APP_DIR: .        # <-- see "What to put here" below
     steps:
       - uses: actions/checkout@v4
+
+      - name: Show files (to confirm the folder)
+        run: ls -la "$APP_DIR"
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npx expo export --platform web
+
+      - name: Install
+        working-directory: ${{ env.APP_DIR }}
+        run: npm install
+
+      - name: Export web build
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          npx expo export --platform web
+          cp dist/index.html dist/404.html
         env:
+          EXPO_BASE_URL: /schoolManagementFE
           EXPO_PUBLIC_USE_MOCK: "true"
           EXPO_PUBLIC_SCHOOL: greenvalley
-      - run: cp dist/index.html dist/404.html
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: ${{ env.APP_DIR }}/dist
 
   deploy:
     needs: build
@@ -41,8 +55,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-      - run: npx expo export --platform web
-        env:
-          EXPO_BASE_URL: /schoolManagementFE
-          EXPO_PUBLIC_USE_MOCK: "true"
-          EXPO_PUBLIC_SCHOOL: greenvalley
