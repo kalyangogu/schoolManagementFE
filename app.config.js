@@ -22,6 +22,7 @@ module.exports = ({ config }) => {
 
   return {
     ...config,
+  experiments: { ...(config.experiments || {}), baseUrl: process.env.EXPO_BASE_URL || undefined },
     name: school.appName,
     slug: school.slug,
     ...(icon ? { icon } : {}),
