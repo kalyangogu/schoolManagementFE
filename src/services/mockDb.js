@@ -91,8 +91,8 @@ db.events = [
 //               STAFF teacher01 / teacher123 (no security questions set) · PARENT parent@mail.com / parent123
 const sec = [{ questionId: 'pet', answer: 'tommy' }, { questionId: 'city', answer: 'hyderabad' }, { questionId: 'school', answer: 'sunrise' }];
 db.users = [
-  { id: 'u1', account: 'STUDENT', loginIds: ['adm001'], password: 'student123', security: sec, profiles: [{ id: 'p-s1', name: 'Avinash', role: 'STUDENT' }] },
-  { id: 'u2', account: 'STAFF', loginIds: ['admin@school.com', 'admin01'], password: 'admin123', security: [], profiles: [{ id: 'p-a1', name: 'Avinash', role: 'SCHOOL_ADMIN' }, { id: 'p-a2', name: 'Avinash', role: 'ACCOUNTANT' }] },
+  { id: 'u1', account: 'STUDENT', loginIds: ['adm001'], password: 'student123', security: sec, profiles: [{ id: 'p-s1', name: 'Ram', role: 'STUDENT' }] },
+  { id: 'u2', account: 'STAFF', loginIds: ['admin@school.com', 'admin01'], password: 'admin123', security: [], profiles: [{ id: 'p-a1', name: 'Ganesh', role: 'SCHOOL_ADMIN' }, { id: 'p-a2', name: 'Ganesh A', role: 'ACCOUNTANT' }] },
   { id: 'u3', account: 'STAFF', loginIds: ['teacher@school.com', 'teacher01'], password: 'teacher123', security: [], profiles: [{ id: 'p-t1', name: 'Prajeeth', role: 'TEACHER' }] },
   { id: 'u4', account: 'PARENT', loginIds: ['parent@mail.com'], password: 'parent123', security: [], profiles: [{ id: 'p-p1', name: 'Parent of Avinash', role: 'PARENT' }] },
   { id: 'u5', account: 'STUDENT', loginIds: ['adm002'], password: 'student123', security: [], profiles: [{ id: 'p-s2', name: 'Prajeeth', role: 'STUDENT' }] },
