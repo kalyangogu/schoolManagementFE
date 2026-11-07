@@ -16,3 +16,4 @@ export { default as Banner } from './Banner';
 export { default as SearchBar } from './SearchBar';
 export { default as EmptyState } from './EmptyState';
 export { ToastProvider, useToast } from './Toast';
+export { DialogProvider, useDialog } from './Dialog';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Switch, Pressable, Alert } from 'react-native';
-import { Screen, Card, SegmentedTabs, DateField, TextField, Chip, Banner, Button, ListRow, EmptyState } from '../../components/ui';
+import { View, Text, Switch, Pressable } from 'react-native';
+import { Screen, Card, SegmentedTabs, DateField, TextField, Chip, Banner, Button, ListRow, EmptyState, useDialog } from '../../components/ui';
 import { useTheme } from '../../theme';
 import useAsync from '../../hooks/useAsync';
 import useAction from '../../hooks/useAction';
@@ -12,6 +12,7 @@ const TABS = [{ key: 'send', label: 'Send message', icon: 'send-outline' }, { ke
 export default function HolidaySmsScreen({ navigation }) {
   const t = useTheme();
   const [tab, setTab] = useState('send');
+  const dialog = useDialog();
   const [multi, setMulti] = useState(false);
   const [date, setDate] = useState(todayISO());
   const [endDate, setEndDate] = useState(todayISO());
@@ -27,11 +28,16 @@ export default function HolidaySmsScreen({ navigation }) {
 
   const toggle = (id) => setSelected((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
 
-  const review = () =>
-    Alert.alert('Send this message?', `${count} parent phone number(s) will be notified${reason ? `: "${reason.trim()}"` : ''}.`, [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Send', onPress: async () => { const { ok } = await send({ date, endDate: multi ? endDate : undefined, reason, classIds: selected }); if (ok) { setReason(''); history.reload(); } } },
-    ]);
+  const review = async () => {
+    const ok = await dialog.confirm({
+      title: 'Send this message?',
+      message: `${count} parent phone number(s) will be notified${reason ? `: "${reason.trim()}"` : ''}.`,
+      confirmText: 'Send',
+    });
+    if (!ok) return;
+    const { ok: sent } = await send({ date, endDate: multi ? endDate : undefined, reason, classIds: selected });
+    if (sent) { setReason(''); history.reload(); }
+  };
 
   const step = (n, label) => <Text style={{ fontWeight: '700', color: t.colors.primary }}>{n}  {label}</Text>;
 

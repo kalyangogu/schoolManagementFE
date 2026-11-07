@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, ScrollView, Alert, StyleSheet } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from '../../components/ui/Icon';
-import { Avatar, BottomSheet } from '../../components/ui';
+import { Avatar, BottomSheet, useDialog } from '../../components/ui';
 import { useStyles, useTheme } from '../../theme';
 import { useAuth } from '../../context/AuthContext';
 import { activeSchool } from '../../config/schools';
@@ -14,13 +14,18 @@ export default function HomeScreen({ navigation }) {
   const s = useStyles(makeStyles);
   const { activeProfile, profiles, switchProfile, logout } = useAuth();
   const [sheet, setSheet] = useState(false);
+  const dialog = useDialog();
   const modules = modulesForRole(activeProfile.role);
 
-  const confirmLogout = () =>
-    Alert.alert('Log out?', 'You will need your mobile number and a code to log in again.', [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Log out', style: 'destructive', onPress: logout },
-    ]);
+  const confirmLogout = async () => {
+    const ok = await dialog.confirm({
+      title: 'Log out?',
+      message: 'You will need your ID and password to log in again.',
+      confirmText: 'Log out',
+      destructive: true,
+    });
+    if (ok) logout();
+  };
 
   return (
     <SafeAreaView style={s.safe} edges={['top', 'left', 'right']}>
